@@ -24,7 +24,7 @@ class pickup {
 	var $tpl;
 	var $page;
 	
-	function pickup() {
+	function __construct() {
 		if (get('subpage') != '') {
 			$p = "pickup_".get('subpage');
 			$this->page = new $p;

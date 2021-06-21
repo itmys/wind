@@ -22,7 +22,7 @@ class search_suggest {
 	var $tpl;
 	var $limit = 10;
 
-	function search_suggest() {
+	function __construct() {
 
 	}
 

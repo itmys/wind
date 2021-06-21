@@ -24,13 +24,13 @@ define("ROOT_PATH","../");
 include_once(ROOT_PATH."globals/common.php");
 if ($vars['debug']['enabled'] == FALSE) die("WiND: Debug mode is not enabled. Check the config file.") ;
 
-class mysql_debug extends mysql {
+class mysqli_debug extends mysql {
 	
 	function query ($query) {
 		$mt = $this->getmicrotime();
 		$return = parent::query($query);
 		$time = $this->getmicrotime() - $mt;
-		$r=mysql_query('EXPLAIN '.$query, $this->mysql_link);
+		$r=mysqli_query($this->mysqli_link, 'EXPLAIN '.$query);
 		$explain=$this->result_to_data($r);
 		$ex_echo .= '<table border="1">';
 		foreach ($explain as $key => $value) {
@@ -54,7 +54,7 @@ class mysql_debug extends mysql {
 	
 }
 
-$db = new mysql_debug($vars['db']['server'], $vars['db']['username'], $vars['db']['password'], $vars['db']['database']);
+$db = new mysqli_debug($vars['db']['server'], $vars['db']['username'], $vars['db']['password'], $vars['db']['database']);
 
 if ($db->error) {
 	die("WiND MySQL database error: $db->error_report");

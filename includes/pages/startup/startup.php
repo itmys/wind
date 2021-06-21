@@ -21,7 +21,7 @@ class startup {
 
 	var $tpl;
 	
-	function startup() {
+	function __construct() {
 		
 	}
 	

@@ -21,7 +21,7 @@ class nodes_search {
 
 	var $tpl;
 	
-	function nodes_search() {
+	function __construct() {
 		
 	}
 	

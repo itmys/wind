@@ -21,7 +21,7 @@ class dnszones {
 
 	var $tpl;
 	
-	function dnszones() {
+	function __construct() {
 		
 	}
 	

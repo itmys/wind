@@ -27,7 +27,7 @@ class nodes_plot_link {
 
 	var $tpl;
 
-	function nodes_plot_link() {
+	function __construct() {
 		
 	}
 

@@ -22,7 +22,7 @@ class table {
 	var $info=array();
 	var $data=array();
 	
-	function table($info="") {
+	function __construct($info="") {
 		if (is_array($info)) $this->info = $info;
 	}
 	
@@ -50,7 +50,7 @@ class table {
 		if (isset($data[0])) {
 			$isset = TRUE;
 			array_unshift($data, $data[0]);
-			while (list($key, $value) = each($data[0])) {
+			foreach ($data[0] as $key => $value) {
 				$data[0][$key] = $key;
 			}
 		}

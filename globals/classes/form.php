@@ -226,12 +226,13 @@ class form {
 				}
 			}
 			reset($pdata);
-			while (list($key, $value) = each($pdata)) {
+			foreach ($pdata as $key => $value) {
 				$key = explode(".", $key);
 				if ($ckey == $key[0] || !isset($key[1])) {
 					$data[(isset($key[1])?$key[1]:$key[0])] = $value;
 				}
 			}
+			unset($value);
 			$field = isset($args[$carg+1])?$args[$carg+1]:'';
 			$value = isset($args[$carg+2])?$args[$carg+2]:'';
 			if ($field == '' || $value == '' || $value == 'add') {
@@ -262,13 +263,14 @@ class form {
 				}
 			}
 			reset($pdata);
-			while (list($key, $value) = each($pdata)) {
+			foreach ($pdata as $key => $value) {
 				$key = explode(".", $key);
 				if ($ckey == $key[0] || !isset($key[1])) {
 					$data[(!isset($key[1])?$key[0]:$key[1])] = $value;
 				}
 			}
-			while (list($key, $value) = each($data)) {
+			unset($value);
+			foreach ($data as $key => $value) {
 				if (is_array($value)) {
 					for ($i=0;$i<count($value);$i++) {
 						$data_f[$i] = $data;
@@ -277,6 +279,7 @@ class form {
 					break;
 				}
 			}
+			unset($value);
 			$ret = $ret && $db->del($ckey, '', $args[$carg+1]." = '".$args[$carg+2]."'");
 			if (isset($data_f)) {
 				for ($i=0;$i<count($data_f);$i++) {
@@ -289,7 +292,7 @@ class form {
 	}
 
 	function correct_datetime_data($data) {
-		while (list($key, $value) = each($data)) {
+		foreach (array($data) as $key => $value) {
 			if (strpos($key, "CONDATETIME_") === 0) {
 				$ckey = substr($key, 12, strrpos($key, "_") - strlen($key));
 				
@@ -311,6 +314,7 @@ class form {
 				reset($data);
 			}
 		}
+		unset($value);
 		return $data;
 	}
 

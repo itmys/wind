@@ -39,9 +39,9 @@ if (is_method_post()) {
 	
 	// Try to connect
 	if ($step_result !== false) {
-		if ($link = @mysql_connect($def_values['server'],$def_values['username'], $def_values['password'])) {
-			if (!mysql_select_db($def_values['database'], $link)) {
-				show_error('Cannot use schema "' . $def_values['database'] . '". ' . mysql_error($link));
+		if ($link = @mysqli_connect($def_values['server'],$def_values['username'], $def_values['password'])) {
+			if (!mysqli_select_db($link, $def_values['database'])) {
+				show_error('Cannot use schema "' . $def_values['database'] . '". ' . mysqli_error($link));
 				$step_result = false;
 			} else {
 				// Save variables
@@ -49,28 +49,28 @@ if (is_method_post()) {
 				
 				
 				// Check if there is already an installation
-				$res = mysql_query("show tables like 'users'");
-				if (mysql_num_rows($res) == 0) {
-					mysql_free_result($res);
+				$res = mysqli_query($link, "show tables like 'users'");
+				if (mysqli_num_rows($res) == 0) {
+					mysqli_free_result($res);
 					
 					$queries = explode(';', file_get_contents('schema.sql'));
 					foreach($queries as $q) {
 						$q = trim($q);
 						if (empty($q)) continue;
 						$q = $q . ';';
-						if (!mysql_query($q, $link)) {
-							show_error('Error building database.' . mysql_error($link));
+						if (!mysqli_query($link, $q)) {
+							show_error('Error building database.' . mysqli_error($link));
 							$step_result = false;
 							break;
 						}
 					}
 					
 					// Initial version of mysql
-					mysql_query("INSERT INTO `update_log` (version_major, version_minor) VALUES(1,1)");
+					mysqli_query($link, "INSERT INTO `update_log` (version_major, version_minor) VALUES(1,1)");
 				}
 			}
 		} else {
-			show_error('Cannot connect to database. ' . mysql_error());
+			show_error('Cannot connect to database. ' . mysqli_error());
 			$step_result = false;
 		}
 	}

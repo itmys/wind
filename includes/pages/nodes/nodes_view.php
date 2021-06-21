@@ -28,7 +28,7 @@ class nodes_view {
 
 	var $tpl;
 	
-	function nodes_view() {
+	function __construct() {
 		
 	}
 

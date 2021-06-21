@@ -16,10 +16,10 @@ if ( file_exists($conf_file) ) {
 }
 if (!isset($conf)) exit;
 
-$mysql_link = mysql_connect($conf['db']['server'], $conf['db']['username'], $conf['db']['password'])
+$mysqli_link = mysqli_connect($conf['db']['server'], $conf['db']['username'], $conf['db']['password'])
         or die("WiND error: Cannot connect to ".$conf['db']['server']); 
 
-mysql_select_db($conf['db']['database'], $mysql_link);
+mysqli_select_db($mysqli_link, $conf['db']['database']);
 
 function replace($array, $string) {
 	$ret = $string;
@@ -39,8 +39,8 @@ if ($conf['zone_type'] == 'forward') {
 			  INNER JOIN nodes ON nodes.id = dns_nameservers.node_id
 			  WHERE dns_nameservers.status = 'active'
 			  ORDER BY nodes.name_ns ASC, dns_nameservers.name ASC";
-	$q = mysql_query($query, $mysql_link);
-	while ($ret = mysql_fetch_assoc($q)) {
+	$q = mysqli_query($mysqli_link, $query);
+	while ($ret = mysqli_fetch_assoc($q)) {
 		$replace['NAMESERVERS'] .= isset($conf['notify'])?
 			long2ip($ret['ns_ip']).";\n":
 			" NS ".$ret['ns_num'].".".$ret['name_ns'].$conf['ns_domain']."\n";
@@ -54,9 +54,9 @@ if ($conf['zone_type'] == 'forward') {
 			  INNER JOIN nodes ON dns_nameservers.node_id = nodes.id
 			  WHERE dns_nameservers.status = 'active' AND dns_zones.type = 'forward' AND dns_zones.status = 'active'
 			  ORDER BY dns_zones.name ASC, dns_zones_nameservers.id ASC";
-	$q = mysql_query($query, $mysql_link);
-	echo mysql_error();
-	while ($ret = mysql_fetch_assoc($q)) {
+	$q = mysqli_query($mysqli_link, $query);
+	echo mysqli_error($mysqli_link);
+	while ($ret = mysqli_fetch_assoc($q)) {
 		$replace['ZONES'] .= $ret['zone_name']." NS ".$ret['ns_num'].".".$ret['name_ns'].$conf['ns_domain']."\n";
 	}
 
@@ -66,8 +66,8 @@ if ($conf['zone_type'] == 'forward') {
 			  INNER JOIN nodes ON nodes.id = dns_nameservers.node_id
 			  WHERE dns_nameservers.status = 'active'
 			  ORDER BY nodes.name_ns ASC, dns_nameservers.name ASC";
-	$q = mysql_query($query, $mysql_link);
-	while ($ret = mysql_fetch_assoc($q)) {
+	$q = mysqli_query($mysqli_link, $query);
+	while ($ret = mysqli_fetch_assoc($q)) {
                 if ($ret['ip'] != 0 ) {
                         $replace['NS-SUBDOMAIN'] .= $ret['ns_num'].".".$ret['name_ns'].$conf['ns_domain']." A ".long2ip($ret['ip'])."\n";
                 }
@@ -90,8 +90,8 @@ if ($conf['zone_type'] == 'forward') {
 			  INNER JOIN nodes ON nodes.id = dns_nameservers.node_id
 			  WHERE dns_nameservers.status = 'active'
 			  ORDER BY nodes.name_ns ASC, dns_nameservers.name ASC";
-	$q = mysql_query($query, $mysql_link);
-	while ($ret = mysql_fetch_assoc($q)) {
+	$q = mysqli_query($mysqli_link, $query);
+	while ($ret = mysqli_fetch_assoc($q)) {
 		$replace['NAMESERVERS'] .= " NS ".$ret['ns_num'].".".$ret['name_ns'].$conf['ns_domain']."\n";
 	}
 
@@ -103,9 +103,9 @@ if ($conf['zone_type'] == 'forward') {
 			  INNER JOIN nodes ON dns_nameservers.node_id = nodes.id
 			  WHERE dns_nameservers.status = 'active' AND dns_zones.type = 'reverse' AND dns_zones.status = 'active'
 			  ORDER BY dns_zones.name ASC, dns_zones_nameservers.id ASC";
-	$q = mysql_query($query, $mysql_link);
-	echo mysql_error();
-	while ($ret = mysql_fetch_assoc($q)) {
+	$q = mysqli_query($mysqli_link, $query);
+	echo mysqli_error($mysqli_link);
+	while ($ret = mysqli_fetch_assoc($q)) {
 		$replace['ZONES'] .= $ret['zone_name'].". NS ".$ret['ns_num'].".".$ret['name_ns'].$conf['ns_domain']."\n";
 	}
 
@@ -119,8 +119,8 @@ if ($conf['zone_type'] == 'forward') {
 			  INNER JOIN nodes ON nodes.id = dns_nameservers.node_id
 			  WHERE dns_nameservers.status = 'active'
 			  ORDER BY nodes.name_ns ASC, dns_nameservers.name ASC";
-	$q = mysql_query($query, $mysql_link);
-	while ($ret = mysql_fetch_assoc($q)) {
+	$q = mysqli_query($mysqli_link, $query);
+	while ($ret = mysqli_fetch_assoc($q)) {
 		$replace['NAMESERVERS'] .= " NS ".$ret['ns_num'].".".$ret['name_ns'].$conf['ns_domain']."\n";
 	}
 
@@ -132,9 +132,9 @@ if ($conf['zone_type'] == 'forward') {
 			  INNER JOIN nodes ON dns_nameservers.node_id = nodes.id
 			  WHERE dns_nameservers.status = 'active' AND dns_zones.type = 'reverse_v6' AND dns_zones.status = 'active'
 			  ORDER BY dns_zones.name ASC, dns_zones_nameservers.id ASC";
-	$q = mysql_query($query, $mysql_link);
-	echo mysql_error();
-	while ($ret = mysql_fetch_assoc($q)) {
+	$q = mysqli_query($mysqli_link, $query);
+	echo mysqli_error($mysqli_link);
+	while ($ret = mysqli_fetch_assoc($q)) {
 		$replace['ZONES'] .= $ret['zone_name'].". NS ".$ret['ns_num'].".".$ret['name_ns'].$conf['ns_domain']."\n";
 	}
 
@@ -143,6 +143,6 @@ if ($conf['zone_type'] == 'forward') {
 ## ECHO ZONE
 echo replace($replace, file_get_contents($basedir.'/'.$conf['shema']));
 
-mysql_close($mysql_link);
+mysqli_close($mysqli_link);
 
 ?>

@@ -27,10 +27,10 @@ function check_wind_dependencies() {
 	
 	// PHP Version
 	$phpversion = explode('.', phpversion());
-	$dependancies['PHP Version >= 5.3'] = ($phpversion[0] >= 5 && $phpversion[1] >=3);
+	$dependancies['PHP Version >= 7.0'] = ($phpversion[0] >= 7 && $phpversion[1] >=0);
 	
 	// MySQL Support
-	$dependancies['PHP-MySQL extension'] = (extension_loaded('mysql') && function_exists('mysql_connect'));
+	$dependancies['PHP-MySQL extension'] = (extension_loaded('mysqli') && function_exists('mysqli_connect'));
 	
 	// GD Library
 	$dependancies['PHP-GD extension'] = (extension_loaded('gd') && function_exists('gd_info'));

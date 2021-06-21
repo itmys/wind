@@ -21,7 +21,7 @@ class hostmaster_range_v6 {
 
 	var $tpl;
 	
-	function hostmaster_range_v6() {
+	function __construct() {
 		
 	}
 	

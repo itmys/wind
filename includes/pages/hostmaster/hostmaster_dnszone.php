@@ -21,7 +21,7 @@ class hostmaster_dnszone {
 
 	var $tpl;
 	
-	function hostmaster_dnszone() {
+	function __construct() {
 		
 	}
 	

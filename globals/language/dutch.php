@@ -23,7 +23,7 @@ $lang = array(
 
 	'charset' => 'utf-8',
 	'iso639' => 'en',
-	'mysql_charset' => 'utf8',
+	'mysqli_charset' => 'utf8',
 
 	'site_title' => "WiND - Wireless Nodes Database",
 	'title_small' => "WiND",	

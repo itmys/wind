@@ -21,7 +21,7 @@ class gearth_download {
 
 	var $tpl;
 
-	function gearth_download() {
+	function __construct() {
 	}
 
 	function output() {

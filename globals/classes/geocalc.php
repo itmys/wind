@@ -28,7 +28,7 @@ class GeoCalc {
   var $KM2MI = 0.621371;
   var $FLATTENING =  0;
 
-  function GeoCalc() {
+  function __construct() {
   	$this->FLATTENING = 1.0/298.26;  // Earth flattening
                                      // (WGS 1972)
     return;

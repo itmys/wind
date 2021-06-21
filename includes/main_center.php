@@ -23,7 +23,7 @@ class center {
 
 	var $page;
 	
-	function center() {
+	function __construct() {
 		$p = get('page');
 		$this->page = new $p;
 	}

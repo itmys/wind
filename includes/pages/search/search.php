@@ -29,7 +29,7 @@ class search {
 	var $tpl;
 	var $page;
 	
-	function search() {
+	function __construct() {
 		if (get('subpage') != '') {
 			$p = "search_".get('subpage');
 			$this->page = new $p;

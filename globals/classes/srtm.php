@@ -36,7 +36,7 @@ class srtm {
                   .$ll['lon_dir'].sprintf("%03.0f", abs((integer)($lon+$ll['lon_adj']))).'.hgt';
         }
 
-        function get_lat_long_adjustments($lat,$lon) {
+        static function get_lat_long_adjustments($lat,$lon) {
           if ($lat < 0) {
             $r['lat_dir'] = 'S';
             $r['lat_adj'] = 1;

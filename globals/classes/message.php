@@ -29,7 +29,7 @@ class message {
 	var $type='info';
 	var $tpl;
 	
-	function message() {
+	function __construct() {
 
 	}
 

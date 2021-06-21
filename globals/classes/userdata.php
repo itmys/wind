@@ -33,7 +33,7 @@ class userdata {
 	var $last_session_key = "last_session";
 	var $last_visit_key = "last_visit";
 	
-	function userdata() {
+	function __construct() {
 		session_start();
 		if (isset($_SESSION['userdata'][$this->primary_key])) {
 			$this->logged = TRUE;

@@ -21,7 +21,7 @@ class admin_regions_region {
 
 	var $tpl;
 
-	function admin_regions_region() {
+	function __construct() {
 
 	}
 

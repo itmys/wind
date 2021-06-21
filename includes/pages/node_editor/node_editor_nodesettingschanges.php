@@ -24,10 +24,6 @@ class node_editor_nodesettingschanges {
 		
 	}
 	
-	function node_editor_nodesettingschanges() {
-		
-	}
-	
 	function form_nodesettingschanges() {
 		global $main, $db, $vars, $lang;
 		$form_nodesettingschanges = new form(array('FORM_NAME' => 'form_nodesettingschanges'));

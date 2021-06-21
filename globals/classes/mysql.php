@@ -18,7 +18,7 @@
  */
 
 class mysql {
-	var $mysql_link;
+	var $mysqli_link;
 	var $error;
 	var $error_report;
 	var $last_query;
@@ -32,19 +32,19 @@ class mysql {
 	var $total_queries=0;
 	var $total_time=0;
 	
-	function mysql($server, $user, $password, $database) {
-		if (!$this->mysql_link = @mysql_connect($server, $user, $password, TRUE)) {
-			$this->error();
+	function __construct($server, $user, $password, $database) {
+		if (!$this->mysqli_link = @mysqli_connect($server, $user, $password)) {
+			$this->error($this->mysqli_link);
 			return;
 		}
-		if (!@mysql_select_db($database, $this->mysql_link)) {
-			$this->error();
+		if (!@mysqli_select_db($this->mysqli_link, $database)) {
+			$this->error($this->mysqli_link);
 			return;
 		}
 	}
 	
 	function close_mysql() {
-		return mysql_close($this->mysql_link);
+		return mysqli_close($this->mysqli_link);
 	}
 	
 	function query($query) {
@@ -53,9 +53,9 @@ class mysql {
 		$this->last_query=$query;
 		$this->total_queries += 1;
 		$mt = $this->getmicrotime();
-		$q = mysql_query($query, $this->mysql_link);
+		$q = mysqli_query($this->mysqli_link, $query);
 		$this->total_time += ($this->getmicrotime() - $mt);
-		$this->error();
+		$this->error($this->mysqli_link);
 		return $q;
 	}
 	
@@ -72,13 +72,13 @@ class mysql {
 		}
 		$i = 0;
 		$res = array();
-		while ($ret = mysql_fetch_assoc($result)) {
-			while (list ($key, $value) = each ($ret)) {
+		while ($ret = mysqli_fetch_assoc($result)) {
+			foreach ($ret as $key => $value) {
 				$res[$i][$key] = $value;
 			}
 			$i++;
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		return $res;
 	}
 	
@@ -105,7 +105,7 @@ class mysql {
 		}
 		$keys = "";
 		$values = "";
-		while (list ($key, $value) = each ($data)) {
+		foreach ($data as $key => $value) {
 			$key_t = explode(".", $key);
 			$key_t = $key_t[count($key_t)-1];
 			if ($value === '' && $nulls[$key_t] != 'YES') {
@@ -117,6 +117,7 @@ class mysql {
 			$value = str_replace("\\\\'", "\\'", $value);
 			$values .= ($value === '' || $value === NULL?'NULL':"'".$value."'").", ";
 		}
+		unset($value);
 		$keys = substr($keys, 0, -2);
 		$values = substr($values, 0, -2);
 		$query = "INSERT INTO $table ($keys) VALUES ($values)";
@@ -126,7 +127,7 @@ class mysql {
 			return FALSE;
 		}
 		$res = $this->query_data($query);
-		if ($res === TRUE) $this->insert_id = mysql_insert_id($this->mysql_link);
+		if ($res === TRUE) $this->insert_id = mysqli_insert_id($this->mysqli_link);
 		if ($addlog) $this->add_log('ADD', $table, $this->insert_id, serialize($data), $query, (!$res?$this->get_error():''));
 		return $res;
 	}
@@ -141,7 +142,7 @@ class mysql {
 			$nulls['`'.$db_fields[$i]['Field'].'`'] = $db_fields[$i]['Null'];
 		}
 		$sets="";
-		while (list ($key, $value) = each ($data)) {
+		foreach ( $data as $key => $value) {
 			$key_t = explode(".", $key);
 			$key_t = $key_t[count($key_t)-1];
 			if ($value === '' && $nulls[$key_t] != 'YES') {
@@ -152,6 +153,7 @@ class mysql {
 			$value = str_replace("\\\\'", "\\'", $value);
 			$sets .= $key."=".($value === '' || $value === NULL?'NULL':"'".$value."'").", ";
 		}
+		unset($value);
 		$sets = substr($sets, 0, -2);
 		$query = "UPDATE $table SET $sets".($where!=''?" WHERE $where":'');
 		if (isset($not_null_keys)) {
@@ -178,7 +180,7 @@ class mysql {
 		if ($addlog && $this->log) $aff = $this->query_data("SELECT ".$table_start.".id FROM ".($using==""?"$table":"$using").($where==""?"":" WHERE $where"));
 		$query = "DELETE FROM $table".($using==""?"":" USING $using").($where==""?"":" WHERE $where");
 		$res = $this->query_data($query);
-		if ($res === TRUE) $this->affected_rows = mysql_affected_rows($this->mysql_link);
+		if ($res === TRUE) $this->affected_rows = mysqli_affected_rows($this->mysqli_link);
 		if ($addlog && isset($aff)) {
 			for ($i=0;$i<count($aff);$i++) {
 				$this->add_log('DELETE', $table_start, $aff[$i]['id'], '', $query, (!$res?$this->get_error():''));
@@ -191,12 +193,12 @@ class mysql {
 		if ($select == '') $select = '*';
 		$query = "SELECT $select FROM $table".($where==""?"":" WHERE $where").($group_by==""?"":" GROUP BY $group_by").($order_by==""?"":" ORDER BY $order_by").($limit==""?"":" LIMIT $limit");
 		$q = $this->query($query);
-		return mysql_num_rows($q);
+		return mysqli_num_rows($q);
 	}
 	
-	function error() {
-		$this->error = mysql_errno();
-		$this->error_report = mysql_error();
+	function error($link) {
+		$this->error = mysqli_errno($link);
+		$this->error_report = mysqli_error($link);
 		if ($this->error == 1062) {
 			$this->output_error_duplicate_entry();
 		} elseif ($this->error > 0) {			

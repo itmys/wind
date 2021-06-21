@@ -573,7 +573,7 @@ function language_set($language='', $force=FALSE) {
 
 		// Set-up NAMES on database system
 		if($vars['db']['version']>=4.1)
-			$db->query("SET NAMES '".$lang['mysql_charset']."'");
+			$db->query("SET NAMES '".$lang['mysqli_charset']."'");
 
 	} else {
 

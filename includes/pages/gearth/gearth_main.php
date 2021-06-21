@@ -21,7 +21,7 @@ class gearth_main {
 
 	var $tpl;
 	
-	function gearth_main() {
+	function __construct() {
 
 	}
 	

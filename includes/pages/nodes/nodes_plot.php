@@ -28,7 +28,7 @@ $geoimage = new geoimage();
 
 class nodes_plot {
 
-	function nodes_plot() {
+	function __construct() {
 		
 	}
 	

@@ -21,7 +21,7 @@ class services {
 
 	var $tpl;
 	
-	function services() {
+	function __construct() {
 		
 	}
 	

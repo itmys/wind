@@ -21,7 +21,7 @@ class admin_nodes {
 
 	var $tpl;
 	
-	function admin_nodes() {
+	function __construct() {
 		
 	}
 	

@@ -26,7 +26,7 @@ class html {
 	var $head;
 	var $body;
 	
-	function html() {
+	function __construct() {
 		$this->head = new head;
 		$this->body = new body;		
 	}

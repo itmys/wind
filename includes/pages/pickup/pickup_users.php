@@ -21,7 +21,7 @@ class pickup_users {
 
 	var $tpl;
 	
-	function pickup_users() {
+	function __construct() {
 		
 	}
 	

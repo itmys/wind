@@ -21,7 +21,7 @@ class admin_areas_area {
 
 	var $tpl;
 
-	function admin_areas_area() {
+	function __construct() {
 
 	}
 

@@ -21,7 +21,7 @@ class hostmaster_dnszones_schema {
 
 	var $tpl;
 	
-	function hostmaster_dnszones_schema() {
+	function __construct() {
 		
 	}
 	

@@ -21,7 +21,7 @@ class ranges_search {
 
 	var $tpl;
 	
-	function ranges_search() {
+	function __construct() {
 		
 	}
 	

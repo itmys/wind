@@ -25,16 +25,16 @@
 /*
  * Initialize db connection 
  */
-$link = mysql_connect(
+$link = mysqli_connect(
 	$_SESSION['config']['db']['server'],
 	$_SESSION['config']['db']['username'],
 	 $_SESSION['config']['db']['password']);
-mysql_select_db($_SESSION['config']['db']['database'], $link);
+mysqli_select_db($link, $_SESSION['config']['db']['database']);
 
-$result = mysql_query('SELECT count(*) FROM users;');
-$row = mysql_fetch_array($result, MYSQL_NUM);
+$result = mysqli_query($link, 'SELECT count(*) FROM users;');
+$row = mysqli_fetch_array($result, MYSQLI_NUM);
 if (!isset($row[0][0])) {
-	show_error('Error getting data from database.' . mysql_error($link));
+	show_error('Error getting data from database.' . mysqli_error($link));
 	return false;
 }
 if ($row[0][0] > 0) {
@@ -78,7 +78,7 @@ if (is_method_post()) {
 		$fields['password'] = md5($def_values['password']);
 		unset($fields['password2']);
 		foreach($fields as $i => $f) 
-			$fields[$i] = "'" . mysql_real_escape_string($f, $link) . "'";
+			$fields[$i] = "'" . mysqli_real_escape_string($link, $f) . "'";
 			
 		// Additional fields
 		$fields['date_in'] = 'NOW()';
@@ -89,18 +89,17 @@ if (is_method_post()) {
 			$field_names[$i] = "`" . $f . "`";
 		$query = "INSERT INTO users (" . implode(', ', $field_names) . ') VALUES(' .
 			implode(', ', $fields) .');';
-			
 		// Add user
-		if (!($res = mysql_query($query))) {
-			show_error('Error creating user. ' . mysql_error($link));
+		if (!($res = mysqli_query($link, $query))) {
+			show_error('Error creating user. ' . mysqli_error($link));
 			return false;
 		}
-		$userid = mysql_insert_id($link);
+		$userid = mysqli_insert_id($link);
 
 		// Add rights
 		$query = "INSERT INTO rights (`user_id`, `type`) VALUES ('{$userid}', 'admin'), ('{$userid}', 'hostmaster')";
-		if (!($res = mysql_query($query))) {
-			show_error('Error adding priviliges to user. ' . mysql_error($link));
+		if (!($res = mysqli_query($link, $query))) {
+			show_error('Error adding priviliges to user. ' . mysqli_error($link));
 			return false;
 		}
 	}
