@@ -97,7 +97,7 @@ function srtm_files($bound_sw, $bound_ne) {
  */
 function download_srtm_for($lat, $lon) {
 	global $config;
-	$base_url = 'http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/';
+	$base_url = $config['srtm']['base_url'];
 	$srtm_directory = get_srtm_directory() . "/";
 	$fname = srtm::get_filename($lat, $lon);
 	$zip_fname = $fname . '.zip';

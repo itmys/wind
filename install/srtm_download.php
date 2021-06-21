@@ -21,11 +21,12 @@ ini_set('max_execution_time', 300);
 header('Content-Type: application/json');
 
 require_once dirname(__FILE__) . '/../globals/classes/srtm.php';
+require_once dirname(__FILE__) . '/../config/config.php';
 
 if (!isset($_GET['lat']) || !isset($_GET['lng']))
 	return;
-	
-$base_url = 'http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/';
+
+$base_url = $config['srtm']['base_url'];
 $srtm_directory = dirname(__FILE__) . '/../files/srtm/';
 $fname = srtm::get_filename((int)$_GET['lat'], (int)$_GET['lng']);
 $zip_fname = $fname . '.zip';

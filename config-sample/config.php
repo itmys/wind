@@ -75,7 +75,8 @@ $config = array(
 		),
 	
 	'srtm' => array(
-		'path' => ROOT_PATH.'files/srtm/'
+		'path' => ROOT_PATH.'files/srtm/',
+		'base_url' => 'http://web.archive.org/web/20121010175147if_/http://dds.cr.usgs.gov/srtm/version2_1/SRTM3'
 		),
 		
 	'map' => array(

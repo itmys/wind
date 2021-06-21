@@ -47,15 +47,6 @@ for($lat = floor($bounds['min_latitude']); $lat <= ceil($bounds['max_latitude'])
 	}
 }
 
-$web_folders = array(
-	'Africa',
-	'Australia',
-	'Eurasia',
-	'Islands',
-	'North_America',
-	'South_America'
-);
-
 if (!extension_loaded('zip') || !function_exists('zip_open')) {
 	show_error('You need <strong>"zip"</strong> extension to download srtm files.');
 	return true;
