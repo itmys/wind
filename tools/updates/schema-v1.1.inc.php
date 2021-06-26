@@ -84,10 +84,10 @@ $tb->addColumn('v6net_id', 'int', array(
 		'not_null' => true,
 		'default' => '0',
 		'unique' => true));
-$tb->newColumn('v6net', 'varbinary(16)', array(
+$tb->addColumn('v6net', 'varbinary(16)', array(
 		'default' => '0',
 		'unique' => true));
-$tb->newColumn('v6prefix', 'smallint', array(
+$tb->addColumn('v6prefix', 'smallint', array(
 		'default' => '0'));
 $tb->addColumn('status', "enum('waiting','active','pending','rejected','invalid')", array(
 		'not_null' => true,
@@ -123,15 +123,15 @@ $tb->addColumn('reason', "enum('other','bug fix','critical-problem','imporovemen
 $tb->addColumn('comment', 'text');
 
 // MODIFY dns_zones
-$update->modifyColumn('dns_zones', 'name', "varchar(74)", array(
+$update->modifyColumn('dns_zones', 'name', 'name', "varchar(74)", array(
 		'not_null' => true,
 		'default' => "''"));
-$update->modifyColumn('dns_zones', 'type', "enum('forward', 'reverse', 'reverse_v6')", array(
+$update->modifyColumn('dns_zones', 'type', 'type', "enum('forward', 'reverse', 'reverse_v6')", array(
 		'not_null' => true,
 		'default' => "'forward'"));
 
 // MODIFY dns_nameservers
-$update->addColumn('dns_nameservers', 'ipv6', "varbinary(16)", array(
+$update->newColumn('dns_nameservers', 'ipv6', "varbinary(16)", array(
 		'default' => '0'));
 
 // MODIFY areas
@@ -156,10 +156,10 @@ $update->newColumn('links', 'due_date', 'DATETIME', array(
 $update->newColumn('links', 'frequency', "enum('2412','2417','2422','2427','2432','2437','2442','2447','2452','2457','2462','2467','2472','2484','4915','4920','4925','4935','4940','4945','4960','4980','5035','5040','5045','5055','5060','5080','5170','5180','5190','5200','5210','5220','5230','5240','5260','5280','5300','5320','5500','5520','5540','5560','5580','5600','5620','5640','5660','5680','5700','5745','5765','5785','5805','5825')", array(
 		'not_null' => false,
 		'default' => "'5500'"));
-$update->modifyColumn('links', 'status', "enum('active','inactive','pending')", array(
+$update->modifyColumn('links', 'status', 'status', "enum('active','inactive','pending')", array(
 		'not_null' => true,
 		'default' => "'active'"));
-$update->modifyColumn('links', 'type', "enum('p2p','ap','client','free')", array(
+$update->modifyColumn('links', 'type', 'type', "enum('p2p','ap','client','free')", array(
 		'not_null' => false,
 		'default' => "'p2p'"));
 
