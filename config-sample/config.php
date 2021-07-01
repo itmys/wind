@@ -68,10 +68,17 @@ $config = array(
 		),
 	
 	'mail' => array(
-		'smtp' => '', // if not set default used from php.ini file
-		'smtp_port' => '25',
+		'smtp' => 'smtp-server.example.org', // if not set default used from php.ini file
+		'smtp_port' => '587',
+		'smtp_username' => 'username-example',
+		'smtp_password' => 'password-example',
+		'smtp_encryption' => 'tls',
 		'from' => 'hostmaster@server.example.org',
-		'from_name' => 'WiND Hostmaster'
+		'from_name' => 'WiND Hostmaster',
+		// The absolute path to the PHPMailer directory.
+		// Get it here: https://github.com/PHPMailer/PHPMailer
+		'php_mailer_path' => '/var/www/html/path/to/PHPMailer',
+		'php_mailer_timeout' => 1, // send mail timeout in seconds
 		),
 	
 	'srtm' => array(

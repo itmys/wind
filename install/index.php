@@ -32,6 +32,7 @@ $steps = array(
 	'file_perms' => 'File permissions',
 	'community' => 'Community Information',
 	'smarty' => 'Smarty configuration',
+	'phpmailer' => 'PHPMailer configuration',
 	'dbsetup' => 'Setup database',
 	'dbinit' => 'Initialize database',
 	'mapbounds' => 'Setup map boundaries',
