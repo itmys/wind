@@ -33,6 +33,7 @@ $steps = array(
 	'community' => 'Community Information',
 	'smarty' => 'Smarty configuration',
 	'phpmailer' => 'PHPMailer configuration',
+	'smtp' => 'Email SMTP configuration',
 	'dbsetup' => 'Setup database',
 	'dbinit' => 'Initialize database',
 	'mapbounds' => 'Setup map boundaries',
